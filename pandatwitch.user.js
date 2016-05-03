@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Panda Twitch Chat
-// @version      1.2
+// @version      1.3
 // @description  Modifies Panda.tv to be more like twitch theater mode
 // @author       wigguno, hherman1
 // @match        http://www.panda.tv/*
@@ -8,6 +8,7 @@
 // @updateURL    https://github.com/Wigguno/pandatwitch/raw/master/pandatwitch.user.js
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
+// @require      https://rawgit.com/Wigguno/pandatwitch/master/known_associations.js
 // @grant        GM_addStyle
 // @grant        GM_log
 // @grant        GM_getValue
@@ -19,7 +20,6 @@ var url = window.location.href.split("/");
 var id = url[url.length-1];
 
 var localstorage_settings_id = "panda-settings";
-var default_associations = {"3331":"eternalenvyy", "3332":"arteezy", "3333":"universedota", "3334":"puppey", "3335":"pieliedie"};
 
 var twitch_lut = getSettings();
 
@@ -61,6 +61,8 @@ function PTC() {
     }
 }
 
+
+
 // ------------------------------------------------------------------------------------------------------------------------
 // Settings functions
 
@@ -70,6 +72,7 @@ function add_settings()
     var settings_menu = $(	"<div class=panda-twitch-settings>" +
 					"<div class=content>"+
 						"<div class=panda-twitch-dropdown>" +
+                            "<h2> Custom Chats </h2>"+
 							"<ul id=panda-twitch-chat-conversions>" +
 							"</ul>" +
 							"<hr></hr>"+
@@ -120,7 +123,7 @@ function add_settings()
     $("#association-adder #reset-relationships",settings_menu).click(function() {
     	var old_height = $(".panda-twitch-dropdown",settings_menu).prop("scrollHeight");
     	var scroll =  $(".panda-twitch-dropdown",settings_menu).scrollTop();
-        setSettings(default_associations);
+        setLocalSettings({});
         $("#panda-twitch-chat-conversions",settings_menu).empty(); // refresh all old assocations
         $("#panda-twitch-chat-conversions",settings_menu).append(generateAssociationsDOM());// show new association
         $(".panda-twitch-dropdown",settings_menu).scrollTop(scroll + $(".panda-twitch-dropdown",settings_menu).prop("scrollHeight") - old_height);
@@ -165,7 +168,7 @@ function add_settings()
 
 function generateAssociationsDOM() {
     var out = $([]);
-    var settings = getSettings();
+    var settings = getLocalSettings();
     Object.keys(settings).forEach(function(key) {
         out = $.merge(out,generateAssociationDOM(key,settings[key]));
     });
@@ -181,24 +184,35 @@ function generateAssociationDOM(panda_tv_id,twitch_name) {
 }
 
 function add_association(panda_tv_id,twitch_name) {
-    var settings = getSettings();
+    var settings = getLocalSettings();
     settings[panda_tv_id] = twitch_name.toLowerCase();
-    setSettings(settings);
+    setLocalSettings(settings);
 }
 function delete_association(panda_tv_id) {
-    var settings = getSettings();
+    var settings = getLocalSettings();
     delete settings[panda_tv_id];
-    setSettings(settings);
+    setLocalSettings(settings);
 }
 function getSettings() {
+    return mergeSettings(known_associations,getLocalSettings());
+}
+function getLocalSettings() {
     try {
         return JSON.parse(GM_getValue(localstorage_settings_id, {}));
     } catch(e) {
-        return default_associations;
+        return {};
     }
 }
-function setSettings(settings) {
+function setLocalSettings(settings) {
     GM_setValue(localstorage_settings_id,JSON.stringify(settings));
+}
+
+
+function mergeSettings(oldsettings,newsettings) {
+    Object.keys(newsettings).forEach(function(key) {
+        oldsettings[key] = newsettings[key];
+    });
+    return oldsettings;
 }
 
 // ------------------------------------------------------------------------------------------------------------------------
