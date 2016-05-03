@@ -181,7 +181,7 @@ function generateAssociationDOM(panda_tv_id,twitch_name) {
 
 function add_association(panda_tv_id,twitch_name) {
     var settings = getSettings();
-    settings[panda_tv_id] = twitch_name;
+    settings[panda_tv_id] = twitch_name.toLowerCase();
     setSettings(settings);
 }
 function delete_association(panda_tv_id) {
