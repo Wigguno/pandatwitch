@@ -12,7 +12,7 @@
 // check if we have a twitch chat to link. If not, don't run the script
 var url = window.location.href.split("/");
 var id = url[url.length-1];
-var twitch_lut = {"3331":"eternalenvyy", "3332":"arteezy", "3333":"universedota"};
+var twitch_lut = {"3331":"eternalenvyy", "3332":"arteezy", "3333":"universedota", "3334":"puppey", "3335":"pieliedie"};
 if (!(id in twitch_lut))
     return;
 
