@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Panda Twitch Chat
-// @version      1.3
+// @version      1.4
 // @description  Modifies Panda.tv to be more like twitch theater mode
 // @author       wigguno, hherman1
 // @match        http://www.panda.tv/*
@@ -9,8 +9,8 @@
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @require      https://rawgit.com/Wigguno/pandatwitch/master/known_associations.js
-// @grant        GM_addStyle
 // @grant        GM_log
+// @grant        GM_info
 // @grant        GM_getValue
 // @grant        GM_setValue
 // ==/UserScript==
@@ -61,18 +61,19 @@ function PTC() {
     }
 }
 
-
-
 // ------------------------------------------------------------------------------------------------------------------------
 // Settings functions
 
 function add_settings()
 {
+    var ver = GM_info.script.version;
+    GM_log(ver);
     var parent = (b_rearrange_footer) ? $(".room-head-info") : $(".room-foot-box");
     var settings_menu = $(	"<div class=panda-twitch-settings>" +
 					"<div class=content>"+
 						"<div class=panda-twitch-dropdown>" +
-                            "<h2> Custom Chats </h2>"+
+                            "<center><h2>Panda Twitch v" + ver + "</h2></center>"+
+							"<hr></hr>"+
 							"<ul id=panda-twitch-chat-conversions>" +
 							"</ul>" +
 							"<hr></hr>"+
@@ -316,7 +317,8 @@ var css_settings = ""+
 ".panda-twitch-settings .panda-twitch-dropdown li button        { float:right;}"+
 ".panda-twitch-settings .settings-table-container td            { padding:5px;}"+
 ".panda-twitch-settings .settings-table-container input         {}"+
-".panda-twitch-settings .settings-table-container button        { margin:10px;}";
+".panda-twitch-settings .settings-table-container button        { margin:10px;}"+
+".panda-twitch-dropdown h2                                      { margin-bottom: 5px; font-size: 14px; }";
 
 var v_css_move_panda = {val:-1};
 var v_css_rearranged_footer = {val:-1};
