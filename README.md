@@ -1,7 +1,7 @@
 # PandaTwitch
 Userscripts to modify Panda.TV to show Twitch Chat
 
-One script works on all 5 TS members.
+One script works on all 5 TS members, and can support any combination of PandaTV streamer and Twitch chat.
 
 Still under development.
 
