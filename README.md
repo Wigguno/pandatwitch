@@ -5,17 +5,17 @@ One script works on all 5 TS members.
 
 Still under development.
 
-Option 1 (pandatwitchtheater.user.js): Moves Panda.tv Chat to the left sidebar, inserts Twitch.tv chat into the right sidebar. Each chat is individually hidable. Also darkens background and removes most elements from the page.
-http://i.imgur.com/xnasRkT.png
-
-Option 2 (pandatwitchnotheater.user.js): Deletes Panda.tv Chat, and inserts Twitch.tv chat in it's place.
-http://i.imgur.com/0j3hzsD.png
-
 # Installation
 Download a userscript extension such as TamperMonkey (Chrome) or GreaseMonkey (Firefox)  
 https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en  
 https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
 
 Install the script by viewing the raw files on github.  
-https://github.com/Wigguno/pandatwitch/raw/master/pandatwitchtheater.user.js  
-https://github.com/Wigguno/pandatwitch/raw/master/pandatwitchnotheater.user.js
+https://github.com/Wigguno/pandatwitch/raw/master/pandatwitch.user.js
+
+# Settings
+Insert Twitch - Puts Twitch chat in place of Panda chat
+Move Panda - Moves Panda chat to the left sidebar
+Rearrange Footer - Moves the title to the footer
+Remove Detail - Removes the detail text from below the stream
+Dark Theme - Darkens the background (Use with BTTV Dark Mode)
