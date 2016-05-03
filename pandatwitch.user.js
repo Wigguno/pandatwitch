@@ -68,23 +68,26 @@ function PTC() {
 
 function add_settings()
 {
-    var twitch_chat = $("div.room-chat-box.room-chat-no-notice");
+    var parent = $(".room-head-info");
     var settings_menu = $("<div class=panda-twitch-settings>" +
-                                "<div class=dropdown-opener>" +
-                                     "PandaTwitch Settings" +
-                                "</div>" +
-                                "<div class=panda-twitch-dropdown>" +
-                                         "<ul id=panda-twitch-chat-conversions>" +
-                                         "</ul>" +
-                                         "<hr></hr>"+
-                                         "<div id=association-adder>"+
-                                              "<table>"+
-                                                   "<tr> <td>PandaTV ID</td> <td><input type=text name=panda-id></input></td></tr>"+
-                                                   "<tr> <td>Twitch Account Name</td> <td><input type=text name=twitch-name></input></td></tr>"+
-                                                   "<tr> <td><button id=add-relationship> Add/Update </button></td></tr>" +
-                                              "</table>"+
-                                         "</div>"+
-                                "</div>" +
+                             "<div class=content>"+
+                                   "<div class=panda-twitch-dropdown>" +
+                                            "<ul id=panda-twitch-chat-conversions>" +
+                                            "</ul>" +
+                                            "<hr></hr>"+
+                                            "<div id=association-adder>"+
+                                                 "<table>"+
+                                                      "<tr> <td>PandaTV ID</td> <td><input type=text name=panda-id></input></td></tr>"+
+                                                      "<tr> <td>Twitch Account Name</td> <td><input type=text name=twitch-name></input></td></tr>"+
+                                                      "<tr> <td><button id=add-relationship> Add/Update </button></td></tr>" +
+                                                 "</table>"+
+                                            "</div>"+
+                                   "</div>" +
+                             "</div>"+
+                               "<div class=dropdown-opener>" +
+                                    "PandaTwitch Settings" +
+                               "</div>" +
+                               
                           "</div>");
     $("#panda-twitch-chat-conversions",settings_menu).append(generateAssociationsDOM()); // add existing settings
     $(".panda-twitch-dropdown",settings_menu).hide(); // hide by default
@@ -99,7 +102,7 @@ function add_settings()
         $("#panda-twitch-chat-conversions",settings_menu).append(generateAssociationsDOM());// show new association
         $("#association-adder input",settings_menu).val(''); //clear inputs
     });
-    twitch_chat.append(settings_menu);
+    parent.append(settings_menu);
 }
 
 function generateAssociationsDOM() {
@@ -232,9 +235,11 @@ var css_rearranged_footer = ""+
 
 
 var css_settings = ""+
-".panda-twitch-settings                                         { position:absolute; top:0; right:0;}"+
+".panda-twitch-settings                                         {     position: relative; float:right; margin-right:10px; }"+
 ".panda-twitch-settings .dropdown-opener                        { background-color: white; padding: 10px;}"+
-".panda-twitch-settings .panda-twitch-dropdown                  { background-color: white; display: inline-block; padding: 10px;}"+
+".panda-twitch-settings .dropdown-opener:hover                  { color:darkgray; cursor:pointer;}"+
+".panda-twitch-settings .content                                { position:relative }"+
+".panda-twitch-settings .panda-twitch-dropdown                  { position:absolute;right:0;bottom:0; background-color: white; display: inline-block; padding: 10px;}"+
 ".panda-twitch-settings .panda-twitch-dropdown li               { margin:10px;}"+
 ".panda-twitch-settings .panda-twitch-dropdown li button        { float:right;}"+
 ".panda-twitch-settings #association-adder td                   { padding:5px;}"+
