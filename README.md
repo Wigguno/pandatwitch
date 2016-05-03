@@ -5,8 +5,6 @@ Click the players avatar for settings menu.
 
 One script works on all 5 TS members.
 
-Preview: http://i.imgur.com/VYBODJw.png
-
 # Installation
 Download a userscript extension such as TamperMonkey (Chrome) or GreaseMonkey (Firefox)  
 https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en  
