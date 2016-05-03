@@ -1,6 +1,10 @@
 # PandaTwitch
 Userscripts to modify Panda.TV to show Twitch Chat
 
+One script works on all 5 TS members.
+
+Still under development.
+
 Option 1 (pandatwitchtheater.user.js): Moves Panda.tv Chat to the left sidebar, inserts Twitch.tv chat into the right sidebar. Each chat is individually hidable. Also darkens background and removes most elements from the page.
 http://i.imgur.com/xnasRkT.png
 
