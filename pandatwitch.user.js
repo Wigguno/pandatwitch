@@ -6,7 +6,8 @@
 // @match        http://www.panda.tv/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
-// @grant        GM_addStyle
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @grant        GM_log
 // ==/UserScript==
 
@@ -22,11 +23,11 @@ waitForKeyElements (".room-rank-container", PTC);
 
 // ------------------------------------------------------------------------------------------------------------------------
 // Settings
-var b_insert_twitch = true;
-var b_move_panda = true;
-var b_rearrange_footer = true;
-var b_remove_detail = true;
-var b_darktheme = true;
+var b_insert_twitch    = GM_getValue('insert_twitch', true);
+var b_move_panda       = GM_getValue('move_panda', false);
+var b_rearrange_footer = GM_getValue('rearrange_footer', true);
+var b_remove_detail    = GM_getValue('remove_detail', true);
+var b_darktheme        = GM_getValue('darktheme', true);
 
 // ------------------------------------------------------------------------------------------------------------------------
 // Chat Loaded callback
@@ -46,8 +47,121 @@ function PTC() {
     // Insert twitch chat
     if (b_insert_twitch === true)
         document.getElementsByClassName("room-chat-box")[0].innerHTML="<iframe src='https://www.twitch.tv/" + twitch_username + "/chat' width='100%' height='100%' />";
+
+    // Insert PTC settings
+    document.getElementsByClassName("room-head-info-cover")[0].onclick = PTC_settings;
 }
 
+var settings_panel= -1;
+
+function PTC_settings() {
+
+    if (settings_panel == -1)
+    {
+        settings_panel = document.createElement("div");
+
+        settings_panel.style.zIndex  = "200";
+        settings_panel.style.position = "absolute";
+        settings_panel.style.top = "45%";
+        settings_panel.style.left = "45%";
+        settings_panel.style.width = "200px";
+
+        settings_panel.style.padding = "10px";
+        settings_panel.style.background = "#454545";
+        settings_panel.style.color = "white";
+
+        var ptcset_title = document.createElement('div');
+        ptcset_title.className = "ptc_set_input";
+        ptcset_title.innerHTML = "<center><b>Twitch Chat for Panda</b></center>";
+        settings_panel.appendChild(ptcset_title);
+
+        var ptcset_warning = document.createElement('div');
+        ptcset_warning.className = "ptc_set_input";
+        ptcset_warning.innerHTML = "Most settings require a refresh";
+        ptcset_warning.style.marginBottom = "15px";
+        settings_panel.appendChild(ptcset_warning);
+
+        var c;
+        c = b_insert_twitch ? "checked" : "";
+        var ptcset_inserttwitch = document.createElement('div');
+        ptcset_inserttwitch.innerHTML = "<input type='checkbox' " + c + " style='margin-right: 5px' value='twitch' /> Insert Twitch Chat";
+        ptcset_inserttwitch.className = "ptc_set_input";
+        ptcset_inserttwitch.firstChild.onclick = validateSettings;
+        settings_panel.appendChild(ptcset_inserttwitch);
+
+        c = b_move_panda ? "checked" : "";
+        var ptcset_movepanda = document.createElement('div');
+        ptcset_movepanda.innerHTML = "<input type='checkbox' " + c + "  style='margin-right: 5px' value='panda' /> Move Panda Chat";
+        ptcset_movepanda.className = "ptc_set_input";
+        ptcset_movepanda.firstChild.onclick = validateSettings;
+        settings_panel.appendChild(ptcset_movepanda);
+
+        c = b_rearrange_footer ? "checked" : "";
+        var ptcset_refooter = document.createElement('div');
+        ptcset_refooter.innerHTML = "<input type='checkbox' " + c + "  style='margin-right: 5px' value='footer' /> Rearrange Footer";
+        ptcset_refooter.className = "ptc_set_input";
+        ptcset_refooter.firstChild.onclick = validateSettings;
+        settings_panel.appendChild(ptcset_refooter);
+
+        c = b_remove_detail ? "checked" : "";
+        var ptcset_remdetail = document.createElement('div');
+        ptcset_remdetail.innerHTML = "<input type='checkbox' " + c + "  style='margin-right: 5px' value='detail' /> Remove Detail";
+        ptcset_remdetail.className = "ptc_set_input";
+        ptcset_remdetail.firstChild.onclick = validateSettings;
+        settings_panel.appendChild(ptcset_remdetail);
+
+        c = b_darktheme ? "checked" : "";
+        var ptcset_darktheme = document.createElement('div');
+        ptcset_darktheme.innerHTML = "<input type='checkbox' " + c + "  style='margin-right: 5px'value='dark'  /> Dark Theme";
+        ptcset_darktheme.className = "ptc_set_input";
+        ptcset_darktheme.firstChild.onclick = validateSettings;
+        settings_panel.appendChild(ptcset_darktheme);
+
+        document.body.appendChild(settings_panel);
+    }
+    else
+    {
+        validateSettings();
+
+        settings_panel.parentNode.removeChild(settings_panel);
+        settings_panel= -1;
+    }
+}
+
+function validateSettings()
+{
+    for(var i = 0; i < settings_panel.childNodes.length; i++)
+        {
+            if (settings_panel.childNodes[i].firstChild.value === undefined)
+                continue;
+
+            var key = settings_panel.childNodes[i].firstChild.value;
+            var val = settings_panel.childNodes[i].firstChild.checked;
+            switch(key){
+                case 'twitch':
+                    b_insert_twitch = val;
+                    break;
+                case 'panda':
+                    b_move_panda = val;
+                    break;
+                case 'footer':
+                    b_rearrange_footer = val;
+                    break;
+                case 'detail':
+                    b_remove_detail = val;
+                    break;
+                case 'dark':
+                    b_darktheme = val;
+                    break;
+            }
+        }
+        GM_setValue('insert_twitch', b_insert_twitch);
+        GM_setValue('move_panda', b_move_panda);
+        GM_setValue('rearrange_footer', b_rearrange_footer);
+        GM_setValue('remove_detail', b_remove_detail);
+        GM_setValue('darktheme', b_darktheme);
+        update_css_settings();
+}
 // ------------------------------------------------------------------------------------------------------------------------
 // Theater Mode functions
 function move_ptv()
@@ -69,7 +183,7 @@ function move_ptv()
 }
 
 function rearrange_footer()
-{    // remove_element_by_class("room-foot-box");
+{
     remove_element_by_class("room-foot-split");
     remove_element_by_class("room-task-container");
     remove_element_by_class("room-bamboo-container");
@@ -138,32 +252,48 @@ var css_rearranged_footer = ""+
 ".room-foot-box                                                 { padding: 5px !important;}"+
 ".room-head-info                                                { padding-right: 30px !important}";
 
-var v_css_move_panda;
-var v_css_rearranged_footer;
-var v_css_darktheme;
+var v_css_move_panda = {val:-1};
+var v_css_rearranged_footer = {val:-1};
+var v_css_darktheme = {val:-1};
 
-if (b_move_panda === true) {
-    //GM_log('[css] moving panda chat');
-    enable_css(v_css_move_panda, css_move_panda);
-}
+update_css_settings();
+function update_css_settings()
+{
+    if (b_move_panda === true) {
+        //GM_log('[css] moving panda chat');
+        enable_css(v_css_move_panda, css_move_panda);
+    }
+    else {
+        disable_css(v_css_move_panda);
+    }
 
-if (b_rearrange_footer === true) {
-    //GM_log('[css] rearranging footer');
-    enable_css(v_css_rearranged_footer, css_rearranged_footer);
-}
+    if (b_rearrange_footer === true) {
+        //GM_log('[css] rearranging footer');
+        enable_css(v_css_rearranged_footer, css_rearranged_footer);
+    }
+    else {
+        disable_css(v_css_rearranged_footer);
+    }
 
-if (b_darktheme === true) {
-    //GM_log('[css] enabling dark theme');
-    enable_css(v_css_darktheme, css_darktheme);
+    if (b_darktheme === true) {
+        //GM_log('[css] enabling dark theme');
+        enable_css(v_css_darktheme, css_darktheme);
+    }
+    else {
+        disable_css(v_css_darktheme);
+    }
 }
 
 function enable_css(v_css, css)
 {
-    if (v_css === undefined)
-        v_css = addStyle(css);
+    if (v_css.val == -1)
+        v_css.val = addStyle(css);
 }
 function disable_css(v_css)
 {
-    if (v_css !== null)
-        document.getElementsByTagName('head')[0].removeChild(v_css);
+    if (v_css.val != -1)
+    {
+        document.getElementsByTagName('head')[0].removeChild(v_css.val);
+        v_css.val = -1;
+    }
 }
