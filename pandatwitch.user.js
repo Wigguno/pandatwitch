@@ -192,7 +192,7 @@ function getSettings() {
     try {
         return JSON.parse(GM_getValue(localstorage_settings_id, {}));
     } catch(e) {
-        return {};
+        return default_associations;
     }
 }
 function setSettings(settings) {
