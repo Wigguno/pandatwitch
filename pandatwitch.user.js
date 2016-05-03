@@ -18,7 +18,6 @@ var id = url[url.length-1];
 
 var localstorage_settings_id = "panda-settings";
 var default_associations = {"3332":"arteezy"};
-setUpSettings();
 
 var twitch_lut = getSettings();
 if (!(id in twitch_lut))
@@ -126,14 +125,13 @@ function delete_association(panda_tv_id) {
     delete settings[panda_tv_id];
     setSettings(settings);
 }
-function setUpSettings() {
+function getSettings() {
     var settings = GM_getValue(localstorage_settings_id);
     if(settings == null) {
-        GM_setValue(localstorage_settings_id,JSON.stringify());
-    };
-}
-function getSettings() {
-    return JSON.parse(GM_getValue(localstorage_settings_id));
+        return {};
+    } else {
+        return JSON.parse(settings);
+    }
 }
 function setSettings(settings) {
     GM_setValue(localstorage_settings_id,JSON.stringify(settings));
