@@ -1,9 +1,9 @@
 # PandaTwitch
 Userscripts to modify Panda.TV to show Twitch Chat
 
-One script works on all 5 TS members.
+Click the players avatar for settings menu.
 
-Still under development.
+One script works on all 5 TS members.
 
 # Installation
 Download a userscript extension such as TamperMonkey (Chrome) or GreaseMonkey (Firefox)  
