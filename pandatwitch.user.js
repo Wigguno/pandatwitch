@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Panda Twitch Chat
-// @version      1.0
+// @version      1.1
 // @description  Modifies Panda.tv to be more like twitch theater mode
 // @author       wigguno, hherman1
 // @match        http://www.panda.tv/*
+// @updateURL    https://github.com/Wigguno/pandatwitch/raw/master/pandatwitch.user.js
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @grant        GM_addStyle
