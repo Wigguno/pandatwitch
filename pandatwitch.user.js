@@ -8,7 +8,6 @@
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_log
 // ==/UserScript==
 
 // check if we have a twitch chat to link. If not, don't run the script
@@ -116,6 +115,13 @@ function PTC_settings() {
         ptcset_darktheme.className = "ptc_set_input";
         ptcset_darktheme.firstChild.onclick = validateSettings;
         settings_panel.appendChild(ptcset_darktheme);
+
+        var ptcset_close = document.createElement('div');
+        ptcset_close.innerHTML = "<center><button type='button'>Close</button></center>";
+        ptcset_close.className = "ptc_set_input";
+        ptcset_close.firstChild.onclick = PTC_settings;
+        ptcset_close.style.marginTop = "10px";
+        settings_panel.appendChild(ptcset_close);
 
         document.body.appendChild(settings_panel);
     }
@@ -260,7 +266,6 @@ update_css_settings();
 function update_css_settings()
 {
     if (b_move_panda === true) {
-        //GM_log('[css] moving panda chat');
         enable_css(v_css_move_panda, css_move_panda);
     }
     else {
@@ -268,7 +273,6 @@ function update_css_settings()
     }
 
     if (b_rearrange_footer === true) {
-        //GM_log('[css] rearranging footer');
         enable_css(v_css_rearranged_footer, css_rearranged_footer);
     }
     else {
@@ -276,7 +280,6 @@ function update_css_settings()
     }
 
     if (b_darktheme === true) {
-        //GM_log('[css] enabling dark theme');
         enable_css(v_css_darktheme, css_darktheme);
     }
     else {
