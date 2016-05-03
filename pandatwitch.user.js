@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Panda Twitch Chat
-// @version      0.9
+// @version      1.0
 // @description  Modifies Panda.tv to be more like twitch theater mode
 // @author       wigguno
 // @match        http://www.panda.tv/*
