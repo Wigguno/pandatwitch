@@ -73,6 +73,7 @@ function add_settings()
 					"<div class=content>"+
 						"<div class=panda-twitch-dropdown>" +
                             "<center><h2>Panda Twitch v" + ver + "</h2></center>"+
+                            "<center>Most settings will require a page refresh</center>"+
 							"<hr></hr>"+
 							"<ul id=panda-twitch-chat-conversions>" +
 							"</ul>" +
