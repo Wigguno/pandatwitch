@@ -19,3 +19,5 @@ Move Panda - Moves Panda chat to the left sidebar
 Rearrange Footer - Moves the title to the footer  
 Remove Detail - Removes the detail text from below the stream  
 Dark Theme - Darkens the background (Use with BTTV Dark Mode)  
+
+Note: To set the default chat, add an association "-1" to whatever chat you want in the settings menu.
