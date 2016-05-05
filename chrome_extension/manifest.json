@@ -10,9 +10,7 @@
     },
     "permissions": [
         "http://www.panda.tv/*",
-        "https://www.panda.tv/*",
-        "tabs",
-        "storage"
+        "https://www.panda.tv/*"
     ],
     "content_scripts": [{
         "matches": ["http://www.panda.tv/*", "https://www.panda.tv/*"],

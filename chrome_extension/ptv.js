@@ -1,3 +1,5 @@
+
+    
 document.addEventListener('DOMContentLoaded', function() {
     console.info('running extension PandaTwitch');
     
@@ -6,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.info("id: " + id);
     
+    var localstorage_associations_id = "panda-associations";
     var localstorage_settings_id = "panda-settings";
 
     var twitch_lut = getSettings();    
@@ -15,12 +18,25 @@ document.addEventListener('DOMContentLoaded', function() {
     waitForKeyElements (".room-rank-container", PTC);
     
     // ------------------------------------------------------------------------------------------------------------------------
-    // Settings
-    var b_insert_twitch         = localStorage.getItem('insert_twitch') || true;
-    var b_move_panda            = localStorage.getItem('move_panda') || false;
-    var b_rearrange_footer      = localStorage.getItem('rearrange_footer') || true;
-    var b_remove_detail         = localStorage.getItem('remove_detail') || true;
-    var b_darktheme             = localStorage.getItem('darktheme') || true;
+    // Settings    
+    
+    var str_ptv_settings = localStorage.getItem(localstorage_settings_id);
+    if (!str_ptv_settings)
+    { 
+        b_insert_twitch = true;
+        b_move_panda = false;
+        b_rearrange_footer = true;
+        b_remove_detail = true;
+        b_darktheme = true;  
+        setPTVSettings();
+    }     
+        
+    var ptv_settings = JSON.parse(str_ptv_settings);       
+    var b_insert_twitch     = ptv_settings['insert_twitch'];
+    var b_move_panda        = ptv_settings['move_panda'];
+    var b_rearrange_footer  = ptv_settings['rearrange_footer'];
+    var b_remove_detail     = ptv_settings['remove_detail'];
+    var b_darktheme         = ptv_settings['darktheme'];
     var b_settings = true;
     
     // ------------------------------------------------------------------------------------------------------------------------
@@ -122,35 +138,35 @@ document.addEventListener('DOMContentLoaded', function() {
         $("#settings-table #ptset-twitch", settings_menu).prop('checked', b_insert_twitch);
         $("#settings-table #ptset-twitch", settings_menu).click(function() {
             b_insert_twitch = $("#settings-table #ptset-twitch",settings_menu).prop('checked');
-            localStorage.setItem('insert_twitch', b_insert_twitch);
+            setPTVSettings();
             update_css_settings();
         });
 
         $("#settings-table #ptset-panda", settings_menu).prop('checked', b_move_panda);
         $("#settings-table #ptset-panda", settings_menu).click(function() {
             b_move_panda = $("#settings-table #ptset-panda",settings_menu).prop('checked');
-            localStorage.setItem('move_panda', b_move_panda);
+            setPTVSettings();
             update_css_settings();
         });
 
         $("#settings-table #ptset-footer", settings_menu).prop('checked', b_rearrange_footer);
         $("#settings-table #ptset-footer", settings_menu).click(function() {
             b_rearrange_footer = $("#settings-table #ptset-footer",settings_menu).prop('checked');
-            localStorage.setItem('rearrange_footer', b_rearrange_footer);
+            setPTVSettings();
             update_css_settings();
         });
 
         $("#settings-table #ptset-detail", settings_menu).prop('checked', b_remove_detail);
         $("#settings-table #ptset-detail", settings_menu).click(function() {
             b_remove_detail = $("#settings-table #ptset-detail",settings_menu).prop('checked');
-            localStorage.setItem('remove_detail', b_remove_detail);
+            setPTVSettings();
             update_css_settings();
         });
 
         $("#settings-table #ptset-dark", settings_menu).prop('checked', b_darktheme);
         $("#settings-table #ptset-dark", settings_menu).click(function() {
             b_darktheme = $("#settings-table #ptset-dark",settings_menu).prop('checked');
-            localStorage.setItem('darktheme', b_darktheme);
+            setPTVSettings();
             update_css_settings();
         });
         parent.append(settings_menu);
@@ -183,15 +199,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function getLocalSettings() {
         try {
-            return JSON.parse(localStorage.getItem(localstorage_settings_id) || {});
+            return JSON.parse(localStorage.getItem(localstorage_associations_id) || {});
         } catch(e) {
             console.error("Error caught loading local settings");
             return {};
         }
     }
     
-    function setLocalSettings(settings) {
-        localStorage.setItem(localstorage_settings_id,JSON.stringify(settings));
+    function setLocalSettings(associations) {
+        localStorage.setItem(localstorage_associations_id,JSON.stringify(associations));
+    }
+    
+    function setPTVSettings() {
+        ptv_settings['insert_twitch'] = b_insert_twitch;
+        ptv_settings['move_panda'] = b_move_panda
+        ptv_settings['rearrange_footer'] = b_rearrange_footer
+        ptv_settings['remove_detail'] = b_remove_detail
+        ptv_settings['darktheme'] = b_darktheme
+        
+        localStorage.setItem(localstorage_settings_id, JSON.stringify(ptv_settings));
     }
     
     function mergeSettings(oldsettings,newsettings) {
@@ -200,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         return oldsettings;
     }
-    
 
     // ------------------------------------------------------------------------------------------------------------------------
     // Theater Mode functions
