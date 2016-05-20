@@ -5,6 +5,10 @@ One script works on all 5 TS members, and can support any combination of PandaTV
 
 Still under development.
 
+Try the chrome extension - It has all the UserScript features as well as sending push messages when Team Secret start streaming on Panda.
+
+https://chrome.google.com/webstore/detail/pandatwitch/fjdhmoohojnbplpbcjlccocjoedoidgf
+
 # Installation
 Download a userscript extension such as TamperMonkey (Chrome) or GreaseMonkey (Firefox)  
 https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en  
