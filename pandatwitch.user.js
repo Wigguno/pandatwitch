@@ -2,7 +2,7 @@
 // @name         Panda Twitch Chat
 // @version      1.5
 // @description  Modifies Panda.tv to be more like twitch theater mode
-// @author       wigguno
+// @author       wigguno, hherman1
 // @match        http://www.panda.tv/roomframe/*
 // @downloadURL  https://github.com/Wigguno/pandatwitch/raw/master/pandatwitch.user.js
 // @updateURL    https://github.com/Wigguno/pandatwitch/raw/master/pandatwitch.user.js
